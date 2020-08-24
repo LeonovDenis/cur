@@ -116,7 +116,8 @@ public class MainApp extends Application {
      * Загрузка настроек
      */
     private void initProps() {
-        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("properties" + System.getProperties().getProperty("file.separator") + "res.properties");
+        InputStream resourceAsStream =MainApp.class.getResourceAsStream("/properties/res.properties");
+        //InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("properties" + System.getProperties().getProperty("file.separator") + "res.properties");
         // String rootPath = Thread.currentThread().getContextClassLoader().getResource("properties").getPath();
        // String appConfigPath = rootPath + System.getProperties().getProperty("file.separator") + "res.properties";
         try {
