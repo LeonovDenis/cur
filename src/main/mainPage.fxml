@@ -101,7 +101,7 @@
                                                                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                                </GridPane.margin>
                                                             </Label>
-                                                            <Label layoutX="15.0" layoutY="48.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Тактовая частота (MГц)" GridPane.rowIndex="6">
+                                                            <Label layoutX="15.0" layoutY="48.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Тактовая частота (Гц)" GridPane.rowIndex="6">
                                                                <GridPane.margin>
                                                                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                                </GridPane.margin>
@@ -156,7 +156,7 @@
                                                                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                                </GridPane.margin>
                                                             </Label>
-                                                            <TextField fx:id="freq" promptText="5" text="5" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                                            <TextField fx:id="freq" promptText="5000000" text="5000000" GridPane.columnIndex="1" GridPane.rowIndex="6">
                                                                <GridPane.margin>
                                                                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                                                </GridPane.margin>

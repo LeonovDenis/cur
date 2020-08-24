@@ -15,16 +15,15 @@ import static math.Utils.byteObjectByte;
 public class SenderImpl extends Sender {
 
 
-
     private final byte[] receiveData = new byte[248];
     private DatagramSocket clientSocket = null;
     private byte[] data = null;
-    private byte[] resData = null;
+    private final byte[] resData = null;
     private DatagramPacket sendPacket = null;
     private DatagramPacket receivePacket = null;
 
     public SenderImpl(InetAddress addr, int port) {
-        super(addr,port);
+        super(addr, port);
     }
 
     @Override
@@ -41,10 +40,16 @@ public class SenderImpl extends Sender {
                 //Перевод в примитив
                 Byte[] command = MainApp.getDetectorComandQueue().take();
 
-                data = ByteObjTobyte( command);
+                data = ByteObjTobyte(command);
 
                 //Формирование пакета байт
-                sendPacket = new DatagramPacket(data, data.length, addr, port);
+                try {
+                    sendPacket = new DatagramPacket(data, data.length, addr, port);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    sendPacket = new DatagramPacket(data, data.length, addr, port + 1);
+                }
+
                 //Отправка пакета клиенту
                 clientSocket.send(sendPacket);
 

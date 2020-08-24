@@ -149,14 +149,6 @@ public class Controller {
 
     private MainApp mainApp;
 
-    public static XYChart.Series<Number, Number> getSeries() {
-        return series;
-    }
-
-    public static void setSeries(XYChart.Series<Number, Number> series) {
-        Controller.series = series;
-    }
-
     @FXML
     private void initialize() {
 
@@ -272,7 +264,6 @@ public class Controller {
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
-
     }
 
     private void initdesel() {
@@ -350,16 +341,12 @@ public class Controller {
         );
     }
 
-
     private void initCCC() {
         ObservableList<?> pass = FXCollections.observableArrayList(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6);
-
         CCC.setItems(pass);
         CCC.setValue(0.2);
-
         CCC.setOnAction(event -> {
             double newValue = (double) CCC.getValue();
-
             byte[] b = new byte[1];
             if (newValue == 0.2) {
                 b[0] = 0x00;
@@ -380,17 +367,13 @@ public class Controller {
             }
             new Message((byte) 0x85, b);
             System.out.println("CCCTiped");
-
-
         });
     }
 
     private void initDIR() {
         ObservableList<?> pass = FXCollections.observableArrayList("Прямое", "Обратное");
-
         DIR.setItems(pass);
         DIR.setValue("Прямое");
-
         DIR.setOnAction(event -> {
             String newValue = (String) DIR.getValue();
             if (newValue != null) {
@@ -402,8 +385,6 @@ public class Controller {
                 }
                 new Message((byte) 0x84, b);
                 System.out.println("DIRTiped");
-
-
             }
         });
     }
@@ -416,7 +397,6 @@ public class Controller {
                 "3-Bypass",
                 "6-Bypass",
                 "7-Bypass");
-
         mode.setItems(pass);
         mode.setValue("0-ВЗН");
 
@@ -435,10 +415,8 @@ public class Controller {
                 } else if (newValue.equalsIgnoreCase("7-Bypass")) {
                     b[0] = 0x07;
                 }
-
                 new Message((byte) 0x83, b);
                 System.out.println("modeTiped");
-
             }
         });
     }
@@ -449,31 +427,24 @@ public class Controller {
             freq.setText("0");
 
         }
-
-        new Message((byte) 0x82, intToByteInt(i * 1000_000));
+        new Message((byte) 0x82, intToByteInt(i));
         System.out.println("freqTiped");
     }
 
     private void pauseTiped(int i) {
-
         if (i < 0) {
             i = 0;
             pause.setText("0");
-
         }
-
         new Message((byte) 0x86, intToByteChar(i));
         System.out.println("pauseTiped");
     }
 
     private void TINTTiped(int i) {
-
         if (i < 0) {
             i = 0;
             TINT.setText("0");
-
         }
-
         new Message((byte) 0x8A, intToByteInt(i));
         System.out.println("TINTTiped");
     }
@@ -485,10 +456,10 @@ public class Controller {
             VU4.setText("2500");
 
         } else if (i > 5000) {
-            i = 2500;
-            VU4.setText("2500");
+            i = 5000;
+            VU4.setText("5000");
         }
-        int mirror = (int) (1.001 * (5000 - i) * 0.102);
+        int mirror = (int) ((5000 - i) * 0.1021);
         new Message((byte) 0x8A, intToByteChar(mirror));
         System.out.println("VU4Tiped");
 
@@ -517,11 +488,11 @@ public class Controller {
             UC.setText("2500");
 
         } else if (i > 5000) {
-            i = 2500;
-            UC.setText("2500");
+            i = 5000;
+            UC.setText("5000");
         }
 
-        int mirror = (int) (1.001 * (5000 - i) * 0.102);
+        int mirror = (int) ((5000 - i) * 0.1021);
         new Message((byte) 0x8B, intToByteChar(mirror));
         System.out.println("UCTiped");
     }
@@ -635,6 +606,13 @@ public class Controller {
         }).start();
     }
 
+    public static XYChart.Series<Number, Number> getSeries() {
+        return series;
+    }
+
+    public static void setSeries(XYChart.Series<Number, Number> series) {
+        Controller.series = series;
+    }
 
     public Label getLable2() {
         return lable2;

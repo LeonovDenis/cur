@@ -34,7 +34,7 @@ public class Message {
         order.flip();
 
         try {
-            getDetectorComandQueue().put(byteObjectByte(order.array()));
+            getDetectorComandQueue().putFirst(byteObjectByte(order.array()));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

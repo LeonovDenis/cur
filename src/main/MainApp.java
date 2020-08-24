@@ -26,19 +26,16 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Properties;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 
 public class MainApp extends Application {
 
-    private static BlockingQueue<Byte[]> detectorComandQueue = new ArrayBlockingQueue(50);
-    private static BlockingQueue<Byte[]> detectorAnswerQueue = new ArrayBlockingQueue(50);
-    private static BlockingQueue<Byte[]> achtComandQueue = new ArrayBlockingQueue(50);
-    private static BlockingQueue<Byte[]> frameQueue = new ArrayBlockingQueue(100);
-    private static BlockingQueue<XYChart.Series<Number, Number>> seriesQueue = new ArrayBlockingQueue(100);
+    private static BlockingDeque<Byte[]> detectorComandQueue = new LinkedBlockingDeque<>(50);
+    private static BlockingDeque<Byte[]> detectorAnswerQueue = new LinkedBlockingDeque(50);
+    private static BlockingDeque<Byte[]> achtComandQueue = new LinkedBlockingDeque(50);
+    private static BlockingDeque<Byte[]> frameQueue = new LinkedBlockingDeque(100);
+    private static BlockingDeque<XYChart.Series<Number, Number>> seriesQueue = new LinkedBlockingDeque(100);
     public static boolean isVideoStoped = false;
     private static Properties appProps = new Properties();
     private Stage primaryStage;
@@ -52,43 +49,43 @@ public class MainApp extends Application {
         launch(args);
     }
 
-    public static BlockingQueue<Byte[]> getDetectorComandQueue() {
+    public static BlockingDeque<Byte[]> getDetectorComandQueue() {
         return detectorComandQueue;
     }
 
-    public static void setDetectorComandQueue(BlockingQueue<Byte[]> detectorComandQueue) {
+    public static void setDetectorComandQueue(BlockingDeque<Byte[]> detectorComandQueue) {
         MainApp.detectorComandQueue = detectorComandQueue;
     }
 
-    public static BlockingQueue<Byte[]> getAchtComandQueue() {
+    public static BlockingDeque<Byte[]> getAchtComandQueue() {
         return achtComandQueue;
     }
 
-    public static void setAchtComandQueue(BlockingQueue<Byte[]> achtComandQueue) {
+    public static void setAchtComandQueue(BlockingDeque<Byte[]> achtComandQueue) {
         MainApp.achtComandQueue = achtComandQueue;
     }
 
-    public static BlockingQueue<Byte[]> getFrameQueue() {
+    public static BlockingDeque<Byte[]> getFrameQueue() {
         return frameQueue;
     }
 
-    public static void setFrameQueue(BlockingQueue<Byte[]> frameQueue) {
+    public static void setFrameQueue(BlockingDeque<Byte[]> frameQueue) {
         MainApp.frameQueue = frameQueue;
     }
 
-    public static BlockingQueue<XYChart.Series<Number, Number>> getSeriesQueue() {
+    public static BlockingDeque<XYChart.Series<Number, Number>> getSeriesQueue() {
         return seriesQueue;
     }
 
-    public static void setSeriesQueue(BlockingQueue<XYChart.Series<Number, Number>> seriesQueue) {
+    public static void setSeriesQueue(BlockingDeque<XYChart.Series<Number, Number>> seriesQueue) {
         MainApp.seriesQueue = seriesQueue;
     }
 
-    public static BlockingQueue<Byte[]> getDetectorAnswerQueue() {
+    public static BlockingDeque<Byte[]> getDetectorAnswerQueue() {
         return detectorAnswerQueue;
     }
 
-    public static void setDetectorAnswerQueue(BlockingQueue<Byte[]> detectorAnswerQueue) {
+    public static void setDetectorAnswerQueue(BlockingDeque<Byte[]> detectorAnswerQueue) {
         MainApp.detectorAnswerQueue = detectorAnswerQueue;
     }
 
@@ -153,6 +150,9 @@ public class MainApp extends Application {
         //Старт отрисовщика графиков
         ChartRuner c =new ChartRuner();
         executor.submit(c);
+        //Старт получальщика ответов детектора
+        StatusCheckerSender tt=new StatusCheckerSender();
+        executor.submit(tt);
         //Старт получальщика ответов детектора
         StatusCheckerResiever t=new StatusCheckerResiever();
         executor.submit(t);
