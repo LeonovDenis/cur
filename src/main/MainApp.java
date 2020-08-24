@@ -134,7 +134,7 @@ public class MainApp extends Application {
     private void initThreads() {
         //Инициализация исполнителя потоков
        // executor = Executors.newWorkStealingPool();
-        executor = Executors.newFixedThreadPool(5);
+        executor = Executors.newFixedThreadPool(10);
         //Старт потока обмена сообщениями с детектором
         try {
             Sender k = new SenderImpl(InetAddress.getByName(appProps.getProperty("ipArm")), Integer.valueOf(appProps.getProperty("portArm")));
