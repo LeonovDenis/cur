@@ -44,6 +44,7 @@ public class MainApp extends Application {
     private byte[] matrix;
     private ExecutorService executor;
     public static Long count=0L;
+    public static int stat=0;
 
     public static void main(String[] args) {
         launch(args);
@@ -150,7 +151,7 @@ public class MainApp extends Application {
         //Старт отрисовщика графиков
         ChartRuner c =new ChartRuner();
         executor.submit(c);
-        //Старт получальщика ответов детектора
+        //Старт отправляльщика ответов детектора
         StatusCheckerSender tt=new StatusCheckerSender();
         executor.submit(tt);
         //Старт получальщика ответов детектора

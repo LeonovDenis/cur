@@ -11,7 +11,10 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import model.Message;
+
+import java.sql.SQLOutput;
 import java.util.concurrent.TimeUnit;
+
 import static main.MainApp.isVideoStoped;
 import static math.Utils.intToByteChar;
 import static math.Utils.intToByteInt;
@@ -149,6 +152,14 @@ public class Controller {
 
     private MainApp mainApp;
 
+    public static XYChart.Series<Number, Number> getSeries() {
+        return series;
+    }
+
+    public static void setSeries(XYChart.Series<Number, Number> series) {
+        Controller.series = series;
+    }
+
     @FXML
     private void initialize() {
 
@@ -169,7 +180,11 @@ public class Controller {
             public void handle(KeyEvent event) {
 
                 if (event.getCode().getName().equalsIgnoreCase("ENTER")) {
+                    try {
                     UCTiped(Integer.parseUnsignedInt(UC.getText()));
+                }catch ( NumberFormatException ignore){
+                    System.out.println("NFE");
+                }
                 }
 
             }
@@ -180,7 +195,11 @@ public class Controller {
             public void handle(KeyEvent event) {
 
                 if (event.getCode().getName().equalsIgnoreCase("ENTER")) {
-                    VR0Tiped(Integer.parseUnsignedInt(VR0.getText()));
+                    try {
+                        VR0Tiped(Integer.parseUnsignedInt(VR0.getText()));
+                    }catch ( NumberFormatException ignore){
+                        System.out.println("NFE");
+                    }
                 }
 
             }
@@ -191,7 +210,11 @@ public class Controller {
             public void handle(KeyEvent event) {
 
                 if (event.getCode().getName().equalsIgnoreCase("ENTER")) {
+                    try {
                     VVATiped(Integer.parseUnsignedInt(VVA.getText()));
+                }catch ( NumberFormatException ignore){
+                    System.out.println("NFE");
+                }
                 }
 
             }
@@ -202,7 +225,11 @@ public class Controller {
             public void handle(KeyEvent event) {
 
                 if (event.getCode().getName().equalsIgnoreCase("ENTER")) {
+                    try {
                     VU4Tiped(Integer.parseUnsignedInt(VU4.getText()));
+                }catch ( NumberFormatException ignore){
+                    System.out.println("NFE");
+                }
                 }
 
             }
@@ -213,7 +240,11 @@ public class Controller {
             public void handle(KeyEvent event) {
 
                 if (event.getCode().getName().equalsIgnoreCase("ENTER")) {
+                    try {
                     TINTTiped(Integer.parseUnsignedInt(TINT.getText()));
+                }catch ( NumberFormatException ignore){
+                    System.out.println("NFE");
+                }
                 }
 
             }
@@ -224,7 +255,11 @@ public class Controller {
             public void handle(KeyEvent event) {
 
                 if (event.getCode().getName().equalsIgnoreCase("ENTER")) {
+                    try {
                     pauseTiped(Integer.parseUnsignedInt(pause.getText()));
+                }catch ( NumberFormatException ignore){
+                    System.out.println("NFE");
+                }
                 }
 
             }
@@ -235,7 +270,11 @@ public class Controller {
             public void handle(KeyEvent event) {
 
                 if (event.getCode().getName().equalsIgnoreCase("ENTER")) {
+                    try {
                     freqTiped(Integer.parseUnsignedInt(freq.getText()));
+                }catch ( NumberFormatException ignore){
+                    System.out.println("NFE");
+                }
                 }
 
             }
@@ -251,14 +290,17 @@ public class Controller {
         init1VU4();
 
     }
-    @FXML
-    private void startVideoR(){
-    boolean stp=isVideoStoped;
 
-        if(stp==false){startVideo.setText("Остановить видео");
-            isVideoStoped=true;}
-        else{startVideo.setText("Старт видео");
-            isVideoStoped=false;
+    @FXML
+    private void startVideoR() {
+        boolean stp = isVideoStoped;
+
+        if (stp == false) {
+            startVideo.setText("Остановить видео");
+            isVideoStoped = true;
+        } else {
+            startVideo.setText("Старт видео");
+            isVideoStoped = false;
         }
     }
 
@@ -281,14 +323,15 @@ public class Controller {
         );
     }
 
+    //////////////////////////////////////////////////////////////////////////////
     private void init1VU4() {
         Avu4.setSelected(false);
         byte[] b = new byte[1];
         Avu4.setOnAction(event -> {
                     if (Avu4.isSelected()) {
-                        b[0] = 0x01;
+                        b[0] = (byte) ((0x01) | (MainApp.stat));
                     } else {
-                        b[0] = 0x0E;
+                        b[0] = (byte) (0x0E & (MainApp.stat));
                     }
                     new Message((byte) 0x81, b);
                     System.out.println("init1VU4Tiped");
@@ -301,9 +344,9 @@ public class Controller {
         byte[] b = new byte[1];
         Auc.setOnAction(event -> {
                     if (Auc.isSelected()) {
-                        b[0] = 0x02;
+                        b[0] = (byte) ((0x02) | (MainApp.stat));
                     } else {
-                        b[0] = 0x0D;
+                        b[0] = (byte) (0x0D & (MainApp.stat));
                     }
                     new Message((byte) 0x81, b);
                     System.out.println("init1AucTiped");
@@ -316,9 +359,9 @@ public class Controller {
         byte[] b = new byte[1];
         Avdda.setOnAction(event -> {
                     if (Avdda.isSelected()) {
-                        b[0] = 0x04;
+                        b[0] = (byte) ((0x04) | (MainApp.stat));
                     } else {
-                        b[0] = 0x0B;
+                        b[0] = (byte) (0x0B & (MainApp.stat));
                     }
                     new Message((byte) 0x81, b);
                     System.out.println("init1AvddaTiped");
@@ -331,9 +374,9 @@ public class Controller {
         byte[] b = new byte[1];
         Avdd.setOnAction(event -> {
                     if (Avdd.isSelected()) {
-                        b[0] = 0x08;
+                        b[0] = (byte) ((0x08) | (MainApp.stat));
                     } else {
-                        b[0] = 0x07;
+                        b[0] = (byte) (0x07 & (MainApp.stat));
                     }
                     new Message((byte) 0x81, b);
                     System.out.println("init1AvddTiped");
@@ -341,6 +384,7 @@ public class Controller {
         );
     }
 
+    /////////////////////////////////////////////////////////////////////////////////
     private void initCCC() {
         ObservableList<?> pass = FXCollections.observableArrayList(0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6);
         CCC.setItems(pass);
@@ -497,7 +541,6 @@ public class Controller {
         System.out.println("UCTiped");
     }
 
-
     private void VR0Tiped(int i) {
 
         if (i < 0) {
@@ -542,18 +585,15 @@ public class Controller {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    new Message((byte) 0x81, new byte[]{0x04});
-                    TimeUnit.MILLISECONDS.sleep(500);
-                    new Message((byte) 0x81, new byte[]{0x08});
-                    TimeUnit.MILLISECONDS.sleep(500);
-                    new Message((byte) 0x81, new byte[]{0x02});
-                    TimeUnit.MILLISECONDS.sleep(500);
-                    new Message((byte) 0x81, new byte[]{0x01});
-                    TimeUnit.MILLISECONDS.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
+                    new Message((byte) 0x81, new byte[]{(byte) (0x04 | (MainApp.stat))});
+                 pauseStart(Avdda);
+                    new Message((byte) 0x81, new byte[]{(byte) (0x08 | (MainApp.stat))});
+                pauseStart(Avdd);
+                    new Message((byte) 0x81, new byte[]{(byte) (0x02 | (MainApp.stat))});
+                pauseStart(Auc);
+                    new Message((byte) 0x81, new byte[]{(byte) (0x01 | (MainApp.stat))});
+                pauseStart(Avu4);
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
@@ -571,6 +611,9 @@ public class Controller {
     @FXML
     private void handleStop() {
         new Message((byte) 0x81, new byte[]{0x00});
+        for (CheckBox ch: new CheckBox[]{Avdda,Avdd,Auc,Avu4} ){
+            ch.setSelected(false);
+        }
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -581,14 +624,14 @@ public class Controller {
         System.out.println("Stop");
     }
 
-    public void getSpeed(){
-        long sat = System.nanoTime();
+    public void getSpeed() {
+        long sat = System.currentTimeMillis();
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Long k=0L;
-                while (true){
-                k=1000_000_000*(MainApp.count*1168)/(System.nanoTime()-sat);
+                Long k = 0L;
+                while (true) {
+                    k = 1000 * (MainApp.count * 1168) / (System.currentTimeMillis() - sat);
                     Long finalK = k;
                     try {
                         TimeUnit.SECONDS.sleep(5);
@@ -596,22 +639,25 @@ public class Controller {
                         e.printStackTrace();
                     }
                     Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                     MainApp.getController().counter.setText(MainApp.count+" frames// "+finalK +" byte/s");
-                    }
+                        @Override
+                        public void run() {
+                            MainApp.getController().counter.setText(MainApp.count + " frames// " + finalK + " byte/s");
+                        }
 
-                });
-            }}
+                    });
+                }
+            }
         }).start();
     }
 
-    public static XYChart.Series<Number, Number> getSeries() {
-        return series;
-    }
+    private void pauseStart(CheckBox ch) {
+            ch.setSelected(true);
+            try {
+                TimeUnit.MILLISECONDS.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-    public static void setSeries(XYChart.Series<Number, Number> series) {
-        Controller.series = series;
     }
 
     public Label getLable2() {

@@ -69,13 +69,13 @@ public class StatusCheckerResiever implements Runnable {
 
                 if (error == 0) {
                     string1 = Integer.toBinaryString(anInt);
-
+                    MainApp.stat=anInt;
                     if (string1.length() > 5) {
                         string1 = string1.substring(string1.length() - 4);
                     } else {
-                        do {
+                        while (string1.length() < 4){
                             string1 = "0" + string1;
-                        } while (string1.length() < 4);
+                        }
                     }
                     s1 = "Подано";
                     s2 = "Отключено";
@@ -203,7 +203,7 @@ public class StatusCheckerResiever implements Runnable {
                 break;
             case 0x0E:
                 if (error == 0) {
-                    MainApp.getController().getLable14().setText(string.equals("1") ? "Идет сброс" : "Ок");
+                    MainApp.getController().getLable14().setText(string.equals("1") ? "Идет сброс" : "Работает");
                 } else {
                     MainApp.getController().getLable14().setText(string);
                 }
