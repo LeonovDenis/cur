@@ -22,6 +22,7 @@ import thread.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Properties;
@@ -115,10 +116,11 @@ public class MainApp extends Application {
      * Загрузка настроек
      */
     private void initProps() {
-        String rootPath = Thread.currentThread().getContextClassLoader().getResource("properties").getPath();
-        String appConfigPath = rootPath + System.getProperties().getProperty("file.separator") + "res.properties";
+        InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream("properties" + System.getProperties().getProperty("file.separator") + "res.properties");
+        // String rootPath = Thread.currentThread().getContextClassLoader().getResource("properties").getPath();
+       // String appConfigPath = rootPath + System.getProperties().getProperty("file.separator") + "res.properties";
         try {
-            appProps.load(new FileInputStream(appConfigPath));
+            appProps.load(resourceAsStream);
         } catch (IOException e) {
             System.out.println("Не загрузились настройки");
             e.printStackTrace();
