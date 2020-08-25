@@ -54,7 +54,7 @@
                                                                   <Font size="14.0" />
                                                                </font>
                                                             </Button>
-                                                            <Button fx:id="startVideo" layoutX="131.0" layoutY="10.0" mnemonicParsing="false" onAction="#startVideoR" prefHeight="46.0" prefWidth="132.0" text="Получить видео">
+                                                            <Button fx:id="startVideo" layoutX="131.0" layoutY="10.0" mnemonicParsing="false" onAction="#startVideoR" prefHeight="43.0" prefWidth="283.0" text="Получить видео">
                                                                <font>
                                                                   <Font size="14.0" />
                                                                </font>

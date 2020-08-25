@@ -11,10 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import model.Message;
-
-import java.sql.SQLOutput;
 import java.util.concurrent.TimeUnit;
-
 import static main.MainApp.isVideoStoped;
 import static math.Utils.intToByteChar;
 import static math.Utils.intToByteInt;
